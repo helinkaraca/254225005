@@ -1,4 +1,4 @@
-Öz-Denetimli Öğrenme ile Endüstriyel Görüntü Sınıflandırma SimCLR ve SimSiam Modellerinin Karşılaştırılması
+Öz-Denetimli Öğrenme ile Endüstriyel Görüntü Sınıflandırma: SimCLR ve SimSiam Modellerinin Karşılaştırılması
 
 Bu çalışma, endüstriyel döküm yüzey görüntülerinde kusur tespiti problemi için öz-denetimli öğrenme (Self-Supervised Learning, SSL) yaklaşımlarının etkinliğini incelemektedir.
 Çalışma kapsamında SimCLR ve SimSiam modelleri kullanılarak ön-eğitim (pretraining) yapılmış ve elde edilen temsiller denetimli sınıflandırma aşamasında karşılaştırmalı olarak değerlendirilmiştir.
@@ -21,10 +21,15 @@ Veri Seti: Casting Product Image Dataset
 https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code
 
 Endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
+
+
+
 ![Örnek Veriseti](./veriseti.png)
+
+
+
 İki sınıf:
-Defect (kusurlu)
-OK (kusursuz)
+Defect (kusurlu) ve OK (kusursuz)
 
 Ön İşleme
 Görüntüler 224 × 224 boyutuna yeniden ölçeklendirilmiştir.
@@ -43,9 +48,13 @@ CNN tabanlı bir encoder mimarisi kullanılmıştır.
 Encoder, SSL ön-eğitim sonrasında sınıflandırma başlığı eklenerek fine-tuning aşamasında kullanılmıştır.
 
 A. SimCLR
+
 SimCLR, kontrastif öğrenme temelli bir öz-denetimli öğrenme yöntemidir.
+
 Positive ve negative örnek çiftleri kullanır.
+
 NT-Xent loss fonksiyonu ile temsil öğrenimi gerçekleştirir.
+
 
 Avantajları:
 Güçlü sınıf ayrımı sağlayan temsil öğrenimi
@@ -81,8 +90,8 @@ Denetimli Fine-Tuning:
 
 ### Notebook 
 
-- SimCLR Modeli Eğitimi ve Deneyleri: [dlfinalsimclrmodel.ipynb](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
-- SimSiam Modeli Eğitimi ve Deneyleri: [dlfinalsimsiammodel.ipynb](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
+- SimCLR Modeli Eğitimi ve Deneyleri: [SimCLR Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
+- SimSiam Modeli Eğitimi ve Deneyleri: [Simsiam Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
 
 5. Model Çıktıları ve Değerlendirme
 
@@ -92,12 +101,13 @@ SimCLR ve SimSiam modelleri, doğrulama ve test setleri üzerinde karşılaştı
 Görsel Çıktılar
 
 Eğitim sürecine ait loss ve metrik eğrileri
-
+![Örnek Pretrain](./SimCLRGrafikler.png)  ![Örnek Pretrain](./SimSiamGrafikler.png)  
 Test verisi üzerinde örnek tahmin (inference) görselleri
 ![Örnek Pretrain](./SimCLRTestInference.png) ![Örnek Pretrain](./SimsiamTestInference.png)  
 
 Karmaşıklık matrisi (confusion matrix)
 ![Örnek Pretrain](./SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./SimsiamConfusionMatrix.png) 
+
 Tüm çıktılar outputs/ klasörü altında yer almaktadır.
 
 6. Sonuç ve Değerlendirme
