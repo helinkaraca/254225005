@@ -1,143 +1,186 @@
 Öz-Denetimli Öğrenme ile Endüstriyel Görüntü Sınıflandırma: SimCLR ve SimSiam Modellerinin Karşılaştırılması
 
-Bu çalışma, endüstriyel döküm yüzey görüntülerinde kusur tespiti problemi için öz-denetimli öğrenme (Self-Supervised Learning, SSL) yaklaşımlarının etkinliğini incelemektedir.
-Çalışma kapsamında SimCLR ve SimSiam modelleri kullanılarak ön-eğitim (pretraining) yapılmış ve elde edilen temsiller denetimli sınıflandırma aşamasında karşılaştırmalı olarak değerlendirilmiştir.
+Bu çalışma, endüstriyel döküm yüzey görüntülerinde kusur tespiti problemi için öz-denetimli öğrenme (Self-Supervised Learning, SSL) yaklaşımlarının etkinliğini incelemektedir. Çalışmada SimCLR ve SimSiam modelleri kullanılarak ön-eğitim (pretraining) yapılmış ve elde edilen temsiller denetimli sınıflandırma aşamasında karşılaştırmalı olarak değerlendirilmiştir.
 
 1. Problemin Tanımı
 
-Endüstriyel üretim süreçlerinde yüzey kusurlarının erken ve doğru tespiti, kalite kontrol açısından kritik öneme sahiptir.
-Ancak bu problem aşağıdaki zorlukları içermektedir:
+Endüstriyel üretim süreçlerinde yüzey kusurlarının erken ve doğru tespiti kalite kontrol açısından kritik öneme sahiptir. Ancak problem aşağıdaki zorlukları içerir:
 
-a.Kusurlu örneklerin sayıca az olması nedeniyle sınıf dengesizliği
+Kusurlu örneklerin sayıca az olması → sınıf dengesizliği
 
-b.Uzman gerektiren ve maliyetli etiketleme süreci
+Etiketleme süreci maliyetli ve uzman gerektirir
 
-c.Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel varyasyon
+Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel varyasyon
 
-Bu nedenlerle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt edici görsel temsiller öğrenmesi hedeflenmiş ve öz-denetimli öğrenme yaklaşımları tercih edilmiştir.
+Bu nedenle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt edici görsel temsiller öğrenmesi hedeflenmiş ve öz-denetimli öğrenme yaklaşımları tercih edilmiştir.
 
-2. Kullanılan Veri Seti ve Ön İşleme Adımları
-Veri Seti: Casting Product Image Dataset: https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code
+2. Kullanılan Veri Seti ve Ön İşleme
 
-Kullanılan veri seti endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
+Veri Seti: Casting Product Image Dataset  (https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code)
 
 
 
+Veri seti, endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
 
+![Örnek Veriseti](./outputs/dataset.png)
 
-![Örnek Veriseti](./dataset.png)
+Sınıflar: Defect (kusurlu) ve OK (kusursuz)
 
+Ön İşleme:
 
+Görüntüler 224 × 224 boyutuna yeniden ölçeklendirildi
 
-İki sınıf:
-Defect (kusurlu) ve OK (kusursuz)
+Piksel değerleri normalize edildi
 
-Ön İşleme
-Görüntüler 224 × 224 boyutuna yeniden ölçeklendirilmiştir.
-Piksel değerleri normalize edilmiştir.
+Veri Artırma (Augmentation):
 
-Veri Artırma (Augmentation)
 Random horizontal/vertical flip
+
 Rotation
+
 Zoom
+
 
 SSL aşamasında, her görüntü için iki farklı artırılmış görünüm oluşturularak modelin temsil öğrenmesi sağlanmıştır.
 
-3. Model Mimarisi ve Yaklaşımın Gerekçesi
+
+
+3. Model Mimarisi ve Yaklaşım
+   
+   
 Ortak Encoder
-CNN tabanlı bir encoder mimarisi kullanılmıştır.
-Encoder, SSL ön-eğitim sonrasında sınıflandırma başlığı eklenerek fine-tuning aşamasında kullanılmıştır.
 
-A. SimCLR
+CNN tabanlı encoder kullanıldı
 
-SimCLR, kontrastif öğrenme temelli bir öz-denetimli öğrenme yöntemidir.
+SSL ön-eğitim sonrası sınıflandırma başlığı eklenerek fine-tuning yapıldı
 
-Positive ve negative örnek çiftleri kullanır.
 
-NT-Xent loss fonksiyonu ile temsil öğrenimi gerçekleştirir.
+
+4A. SimCLR
+
+
+Kontrastif öğrenme temelli SSL
+
+Positive/negative örnek çiftleri kullanır
+
+NT-Xent loss fonksiyonu ile temsil öğrenimi
+
+
+
 
 
 Avantajları:
-Güçlü sınıf ayrımı sağlayan temsil öğrenimi
-Daha kararlı ve stabil eğitim süreci
-Endüstriyel kusur bölgelerinde daha belirgin özellik çıkarımı
 
-B. SimSiam
-SimSiam, negative örnek gerektirmeyen bir öz-denetimli öğrenme yaklaşımıdır.
+
+
+
+
+Güçlü sınıf ayrımı
+
+Kararlı ve stabil eğitim süreci
+
+Endüstriyel kusur bölgelerinde belirgin özellik çıkarımı
+
+
+SimCLR Görselleri
+
+
+
+
+
+SimCLR Ön Eğitim Loss Grafiği: 
+
+![Örnek Pretrain](./outputs/SimCLRPretrain.png)
+
+Hiperparametre optimizasyonu:
+
+![Örnek Pretrain](./outputs/SimCLRHiperparametre.png)
+
+Eğitim süreci grafikleri:
+
+![Örnek Grafik](./outputs/SimCLRGrafikler.png) 
+
+t-SNE görselleştirmesi:
+
+![Örnek tsne](./outputs/SimCLRtsne.png) 
+
+Test verisi üzerinde tahmin (inference):
+
+![Örnek test](./outputs/SimCLRTestInference.png)
+
+Confusion matrix:
+
+![Örnek confusionm](./outputs/SimCLRConfusionM.png) 
+
+
+4B. SimSiam
+
+Negative örnek gerektirmeyen SSL
+
 Stop-gradient mekanizması kullanır
-Daha sade ve hafif bir mimariye sahiptir
 
-Avantajları:
+Daha sade ve hafif mimari
+
+Daha kısa eğitim süresi, düşük bellek ihtiyacı, kolay optimizasyon
+
+
+SimSiam Görselleri
+
+
+Simsiam Ön Eğitim Loss Grafiği: 
+
+![Örnek Pretrain](./outputs/SimsiamPretrain.png)
+
+
+Hiperparametre optimizasyonu:  
+
+
+![Örnek Hiperparametre](./outputs/SimsiamHiperparametre.png)  
+
+Eğitim süreci grafikleri:
+
+
+![Örnek Grafik](./outputs/SimSiamGrafikler.png) 
+
+t-SNE görselleştirmesi:
+
+![Örnek tsne](./outputs/SimSiamtsne.png) 
+
+Test verisi üzerinde tahmin (inference):
+![Örnek test](./outputs/SimsiamTestInference.png)  
+
+
+
+Confusion matrix: 
+
+![Örnek Pretrain](./outputs/SimsiamConfusionMatrix.png)
+
+
+5. Sonuç ve Değerlendirme
+   
+
+Elde edilen deneysel sonuçlar, SimSiam modelinin SimCLR’e kıyasla:
+
+Daha yüksek accuracy (%99 vs %95)
+
+Daha güçlü sınıf ayrımı
+
+Daha stabil öğrenme süreci
+
 Daha kısa eğitim süresi
-Daha düşük bellek ihtiyacı
-Uygulama ve optimizasyon açısından daha basit yapı
 
-4. Çalıştırma Talimatları
-Ortam ve Bağımlılıklar
-Python 3.10+
-Gerekli kütüphaneler requirements.txt dosyasında listelenmiştir.
+Daha uygun batch size ile verimli çalışması
 
-Kurulum:
-pip install -r requirements.txt
+gibi avantajlar sağladığını göstermektedir. Bu nedenle, endüstriyel kusur tespiti uygulamaları için SimSiam modeli daha uygun bir tercih olarak değerlendirilmektedir.
 
-Eğitim Adımları
-
-SSL Ön-Eğitim:
-SimCLR ve SimSiam modelleri ile öz-denetimli ön-eğitim gerçekleştirilir.
-
-![Örnek Pretrain](./SimsiamPretrain.png)   
-
-![Örnek Pretrain](./SimCLRPretrain.png)  
-
-Denetimli Fine-Tuning:
-Ön-eğitimli encoder üzerine sınıflandırma başlığı eklenerek eğitim yapılır.
-
-### Notebook 
+6. Notebook 
 
 - SimCLR Modeli Eğitimi ve Deneyleri: [SimCLR Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
 - SimSiam Modeli Eğitimi ve Deneyleri: [Simsiam Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
-
-5. Test Çıktıları ve Değerlendirme
-
-SimCLR ve SimSiam modelleri, doğrulama ve test setleri üzerinde karşılaştırmalı olarak değerlendirilmiştir.
-
-
-
-Görsel Çıktılar
-
-Ön Eğitim sürecine ait grafikler
-
-![Örnek Pretrain](./outputs/SimCLRGrafikler.png)  ![Örnek Pretrain](./outputs/SimSiamGrafikler.png)  
-
-Eğitim süreticine ait grafikler
-
-![Örnek Pretrain](./SimCLRGrafikler.png)  ![Örnek Pretrain](./SimSiamGrafikler.png)  
-
-t-SNE görselleştirmesi
-
-![Örnek Pretrain](./outputs/SimSiamtsne.png)   ![Örnek Pretrain](./outputs/SimCLRtsne.png)  
-
-Test verisi üzerinde örnek tahmin (inference) görselleri
-
-![Örnek Pretrain](./outputs/SimCLRTestInference.png) ![Örnek Pretrain](./outputs/SimsiamTestInference.png)  
-
-Karmaşıklık matrisi (confusion matrix)
-
-
-![Örnek Pretrain](./outputs/SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./outputs/SimCLRConfusionM.png) 
-
-Tüm çıktılar outputs/ klasörü altında yer almaktadır.
-
-6. Sonuç ve Değerlendirme
-
-
-Elde edilen deneysel sonuçlar, SimSiam modelinin SimCLR’e kıyasla daha yüksek accuracy (%99 vs %95), daha güçlü sınıf ayrımı, daha stabil öğrenme süreci, daha kısa sürmesi ve daha uygun batch size ile verimli çalışması sayesinde endüstriyel kusur tespiti uygulamaları için daha uygun bir tercih olduğunu göstermektedir.
-
-
+  
 7. Proje Sunumu
 
-Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası: 
-
+Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası:
 
 [Helin KARACA_DLFinalSSL.pdf](https://github.com/kullaniciadi/repoadi/blob/main/Helin%20KARACA_DLFinalSSL.pdf)  
  
