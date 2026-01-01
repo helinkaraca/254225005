@@ -1,115 +1,148 @@
-Endüstriyel Kusur Tespiti için Self-Supervised Learning
-![Örnek Tahminler](./tsne.png)
+Öz-Denetimli Öğrenme ile Endüstriyel Görüntü Sınıflandırma SimCLR ve SimSiam Modellerinin Karşılaştırılması
 
-
-SimCLR ve SimSiam Karşılaştırmalı Analizi
-
-Bu proje, endüstriyel üretim ortamlarından elde edilen görüntüler üzerinde kusurlu / kusursuz ürün sınıflandırması yapan akademik bir derin öğrenme çalışmasıdır.
-Çalışmada, Self-Supervised Learning (SSL) tabanlı iki yöntem olan SimCLR ve SimSiam modelleri karşılaştırmalı olarak analiz edilmiştir.
-
-Amaç, etiketli verinin sınırlı olduğu senaryolarda hangi SSL yaklaşımının daha ayırt edici, stabil ve genellenebilir temsiller öğrendiğini ortaya koymaktır.
+Bu çalışma, endüstriyel döküm yüzey görüntülerinde kusur tespiti problemi için öz-denetimli öğrenme (Self-Supervised Learning, SSL) yaklaşımlarının etkinliğini incelemektedir.
+Çalışma kapsamında SimCLR ve SimSiam modelleri kullanılarak ön-eğitim (pretraining) yapılmış ve elde edilen temsiller denetimli sınıflandırma aşamasında karşılaştırmalı olarak değerlendirilmiştir.
 
 1. Problemin Tanımı
 
-Endüstriyel kalite kontrol süreçlerinde kusurlu ürünlerin erken ve doğru tespiti, üretim maliyetlerinin düşürülmesi açısından kritik öneme sahiptir.
+Endüstriyel üretim süreçlerinde yüzey kusurlarının erken ve doğru tespiti, kalite kontrol açısından kritik öneme sahiptir.
+Ancak bu problem aşağıdaki zorlukları içermektedir:
 
-Temel Zorluklar:
+Kusurlu örneklerin sayıca az olması nedeniyle sınıf dengesizliği
 
-Etiketli veri miktarının sınırlı olması
+Uzman gerektiren ve maliyetli etiketleme süreci
 
-Kusur tiplerinin görsel olarak birbirine benzemesi
+Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel varyasyon
 
-Modellerin kusurlu bölgelere gerçekten odaklanıp odaklanmadığının yorumlanabilirliği
+Bu nedenlerle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt edici görsel temsiller öğrenmesi hedeflenmiş ve öz-denetimli öğrenme yaklaşımları tercih edilmiştir.
 
-Bu çalışma, bu zorlukları Self-Supervised Learning yaklaşımlarıyla ele almayı hedeflemektedir.
+2. Kullanılan Veri Seti ve Ön İşleme Adımları
+Veri Seti: Casting Product Image Dataset
 
-2. Kullanılan Veri Seti ve Ön İşleme
+Endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
 
-Veri Seti:
+İki sınıf:
+Defect (kusurlu)
+OK (kusursuz)
 
-Endüstriyel üretim ortamlarından elde edilmiş görüntüler
+Ön İşleme
+Görüntüler 224 × 224 boyutuna yeniden ölçeklendirilmiştir.
+Piksel değerleri normalize edilmiştir.
+Veri Artırma (Augmentation)
 
-İkili sınıflandırma: Kusurlu / Kusursuz
+Random horizontal/vertical flip
 
-Ön İşleme ve Veri Artırma:
+Rotation
 
-Görüntüler yeniden boyutlandırılmış ve normalize edilmiştir
+Zoom
 
-Random flip, rotation ve color jitter gibi veri artırma teknikleri uygulanmıştır
+SSL aşamasında, her görüntü için iki farklı artırılmış görünüm oluşturularak modelin temsil öğrenmesi sağlanmıştır.
 
-SSL aşamasında, kontrastif öğrenmeye uygun iki farklı görüntü dönüşümü kullanılmıştır
+3. Model Mimarisi ve Yaklaşımın Gerekçesi
+Ortak Encoder
 
-3. Model Mimarisi ve Yaklaşım Gerekçesi
-A. Self-Supervised Learning (SSL)
-🔹 SimCLR (Contrastive Learning)
+CNN tabanlı bir encoder mimarisi kullanılmıştır.
 
-SimCLR, aynı görüntünün farklı augmentasyonlarını pozitif çift, farklı görüntüleri ise negatif çift olarak ele alarak kontrastif kayıp fonksiyonu ile temsil öğrenir.
+Encoder, SSL ön-eğitim sonrasında sınıflandırma başlığı eklenerek fine-tuning aşamasında kullanılmıştır.
 
-Avantajı:
+A. SimCLR
 
-Kusurlu ve kusursuz bölgeler arasında daha belirgin ayrımlar öğrenir
+SimCLR, kontrastif öğrenme temelli bir öz-denetimli öğrenme yöntemidir.
 
-Özellik uzayında sınıflar arası mesafe daha nettir
+Positive ve negative örnek çiftleri kullanır.
 
-🔹 SimSiam (Non-Contrastive Learning)
+NT-Xent loss fonksiyonu ile temsil öğrenimi gerçekleştirir.
 
-SimSiam, negatif örneklere ihtiyaç duymadan, simetri kırma prensibi ile temsil öğrenir.
+Avantajları:
 
-Avantajı:
+Güçlü sınıf ayrımı sağlayan temsil öğrenimi
 
-Daha hızlı eğitim süresi
+Daha kararlı ve stabil eğitim süreci
 
-Daha az bellek ihtiyacı
+Endüstriyel kusur bölgelerinde daha belirgin özellik çıkarımı
 
-B. Supervised Fine-Tuning
+B. SimSiam
 
-SSL ile ön-eğitilmiş encoder ağı, sınıflandırma başlığı eklenerek denetimli öğrenme ile fine-tune edilmiştir.
+SimSiam, negative örnek gerektirmeyen bir öz-denetimli öğrenme yaklaşımıdır.
 
-Optimizasyon: Adam
+Stop-gradient mekanizması kullanır
 
-Kayıp Fonksiyonu: CrossEntropyLoss
+Daha sade ve hafif bir mimariye sahiptir
 
-Early Stopping: Aşırı öğrenmeyi önlemek için uygulanmıştır
+Avantajları:
 
-Hiperparametre Optimizasyonu: Optuna (Learning Rate & Batch Size)
+Daha kısa eğitim süresi
+
+Daha düşük bellek ihtiyacı
+
+Uygulama ve optimizasyon açısından daha basit yapı
 
 4. Çalıştırma Talimatları
-Bağımlılıklar
+Ortam ve Bağımlılıklar
 
-Proje Python 3.x ve PyTorch ortamında geliştirilmiştir.
+Python 3.10+
+
 Gerekli kütüphaneler requirements.txt dosyasında listelenmiştir.
+
+Kurulum:
 
 pip install -r requirements.txt
 
 Eğitim Adımları
-# SSL Pretraining
-python ssl_pretrain/simclr.py
-python ssl_pretrain/simsiam.py
 
-# Fine-Tuning ve Değerlendirme
-python classification/train.py
+SSL Ön-Eğitim:
+SimCLR ve SimSiam modelleri ile öz-denetimli ön-eğitim gerçekleştirilir.
 
-5. Model Çıktıları ve Metrikler
-Nicel Sonuçlar (Test Seti)
-Metrik	SimCLR	SimSiam
-Accuracy	%98.30	%90.82
-F1 Score (Macro)	0.98	0.92
-IoU	0.91	0.85
-Dice	0.98	0.92
-Eğitim Stabilitesi	Yüksek	Orta
-Eğitim Süresi	Daha Uzun	Daha Kısa
-Görsel Analizler
+Denetimli Fine-Tuning:
+Ön-eğitimli encoder üzerine sınıflandırma başlığı eklenerek eğitim yapılır.
 
-t-SNE: Özellik uzayı dağılımı
+Notebook ve betikler:
 
-Grad-CAM: Modelin odaklandığı kusurlu bölgeler
+simclr_pretrain.ipynb
 
-Yanlış Sınıflandırma Analizi: Hatalı tahmin edilen örneklerin incelenmesi
+simsiam_pretrain.ipynb
 
-Tüm çıktılar ./outputs/ klasörü altında sunulmuştur.
+classification_finetune.ipynb
+
+5. Model Çıktıları ve Değerlendirme
+Nicel Metrikler
+
+Accuracy
+
+Precision
+
+Recall
+
+F1-Score
+
+SimCLR ve SimSiam modelleri, doğrulama ve test setleri üzerinde karşılaştırmalı olarak değerlendirilmiştir.
+
+Görsel Çıktılar
+
+Eğitim sürecine ait loss ve metrik eğrileri
+
+Test verisi üzerinde örnek tahmin (inference) görselleri
+
+Karmaşıklık matrisi (confusion matrix)
+
+Tüm çıktılar outputs/ klasörü altında yer almaktadır.
 
 6. Sonuç ve Değerlendirme
 
-Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, kontrastif kayıp yapısı sayesinde daha ayrıştırıcı temsiller öğrenen SimCLR modelinin, endüstriyel kusur tespiti uygulamaları için SimSiam’a kıyasla daha uygun olduğu sonucuna varılmıştır.
+Elde edilen deneysel sonuçlar, SimCLR modelinin:
 
-SimSiam daha hızlı eğitilmesine rağmen, SimCLR daha stabil öğrenme süreci ve daha yüksek sınıflandırma performansı sergilemiştir.
+Daha yüksek genelleme başarımı
+
+Daha güçlü sınıf ayrımı
+
+Daha stabil öğrenme süreci
+
+sağladığını göstermektedir.
+
+Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, endüstriyel kusur tespiti uygulamaları için SimCLR modelinin daha uygun olduğu sonucuna varılmıştır.
+
+7. Proje Sunumu
+
+Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası:
+
+📄 Nihai Sunum (PDF)
