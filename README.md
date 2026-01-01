@@ -1,4 +1,6 @@
 Endüstriyel Kusur Tespiti için Self-Supervised Learning
+![Örnek Tahminler](./tsne.png)
+
 
 SimCLR ve SimSiam Karşılaştırmalı Analizi
 
