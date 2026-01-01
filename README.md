@@ -17,14 +17,15 @@ Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel
 Bu nedenlerle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt edici görsel temsiller öğrenmesi hedeflenmiş ve öz-denetimli öğrenme yaklaşımları tercih edilmiştir.
 
 2. Kullanılan Veri Seti ve Ön İşleme Adımları
-Veri Seti: Casting Product Image Dataset
-https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code
+Veri Seti: Casting Product Image Dataset: https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code
 
-Endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
-
+Kullanılan veri seti endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
 
 
-![Örnek Veriseti](./veriseti.png)
+
+
+
+![Örnek Veriseti](./dataset.png)
 
 
 
@@ -83,7 +84,10 @@ Eğitim Adımları
 
 SSL Ön-Eğitim:
 SimCLR ve SimSiam modelleri ile öz-denetimli ön-eğitim gerçekleştirilir.
-![Örnek Pretrain](./SimsiamPretrain.png)    ![Örnek Pretrain](./SimCLRPretrain.png)  
+
+![Örnek Pretrain](./SimsiamPretrain.png)   
+
+![Örnek Pretrain](./SimCLRPretrain.png)  
 
 Denetimli Fine-Tuning:
 Ön-eğitimli encoder üzerine sınıflandırma başlığı eklenerek eğitim yapılır.
@@ -93,24 +97,42 @@ Denetimli Fine-Tuning:
 - SimCLR Modeli Eğitimi ve Deneyleri: [SimCLR Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
 - SimSiam Modeli Eğitimi ve Deneyleri: [Simsiam Model](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
 
-5. Model Çıktıları ve Değerlendirme
-
+5. Test Çıktıları ve Değerlendirme
 
 SimCLR ve SimSiam modelleri, doğrulama ve test setleri üzerinde karşılaştırmalı olarak değerlendirilmiştir.
 
+
+
 Görsel Çıktılar
 
-Eğitim sürecine ait loss ve metrik eğrileri
+Ön Eğitim sürecine ait grafikler
+
 ![Örnek Pretrain](./SimCLRGrafikler.png)  ![Örnek Pretrain](./SimSiamGrafikler.png)  
+
+t-SNE görselleştirmesi
+
+![Örnek Pretrain](./SimSiamtsne.png)   ![Örnek Pretrain](./SimCLRtsne.png)  
+
 Test verisi üzerinde örnek tahmin (inference) görselleri
+
 ![Örnek Pretrain](./SimCLRTestInference.png) ![Örnek Pretrain](./SimsiamTestInference.png)  
 
 Karmaşıklık matrisi (confusion matrix)
+
+
 ![Örnek Pretrain](./SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./SimsiamConfusionMatrix.png) 
 
 Tüm çıktılar outputs/ klasörü altında yer almaktadır.
 
 6. Sonuç ve Değerlendirme
+## Sonuçlar
+
+| Metrik               | SimSiam          | SimCLR           |
+|----------------------|----------------|----------------|
+| En İyi Val Acc       | %99.66          | %95.92          |
+| F1-Skoru             | ~%99.6        | %95.85          |
+
+
 
 Elde edilen deneysel sonuçlar, Simsiam modelinin:
 
@@ -128,7 +150,6 @@ Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, endüstr
 
 Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası: 
 
-### Proje Sunumu
 
 [Helin KARACA_DLFinalSSL.pdf](https://github.com/kullaniciadi/repoadi/blob/main/Helin%20KARACA_DLFinalSSL.pdf)  
  
