@@ -8,11 +8,11 @@ Bu çalışma, endüstriyel döküm yüzey görüntülerinde kusur tespiti probl
 Endüstriyel üretim süreçlerinde yüzey kusurlarının erken ve doğru tespiti, kalite kontrol açısından kritik öneme sahiptir.
 Ancak bu problem aşağıdaki zorlukları içermektedir:
 
-Kusurlu örneklerin sayıca az olması nedeniyle sınıf dengesizliği
+a.Kusurlu örneklerin sayıca az olması nedeniyle sınıf dengesizliği
 
-Uzman gerektiren ve maliyetli etiketleme süreci
+b.Uzman gerektiren ve maliyetli etiketleme süreci
 
-Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel varyasyon
+c.Yüzey dokusu, ışıklandırma ve üretim koşullarına bağlı yüksek görsel varyasyon
 
 Bu nedenlerle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt edici görsel temsiller öğrenmesi hedeflenmiş ve öz-denetimli öğrenme yaklaşımları tercih edilmiştir.
 
@@ -107,44 +107,32 @@ Görsel Çıktılar
 
 Ön Eğitim sürecine ait grafikler
 
+![Örnek Pretrain](./outputs/SimCLRGrafikler.png)  ![Örnek Pretrain](./outputs/SimSiamGrafikler.png)  
+
+Eğitim süreticine ait grafikler
+
 ![Örnek Pretrain](./SimCLRGrafikler.png)  ![Örnek Pretrain](./SimSiamGrafikler.png)  
 
 t-SNE görselleştirmesi
 
-![Örnek Pretrain](./SimSiamtsne.png)   ![Örnek Pretrain](./SimCLRtsne.png)  
+![Örnek Pretrain](./outputs/SimSiamtsne.png)   ![Örnek Pretrain](./outputs/SimCLRtsne.png)  
 
 Test verisi üzerinde örnek tahmin (inference) görselleri
 
-![Örnek Pretrain](./SimCLRTestInference.png) ![Örnek Pretrain](./SimsiamTestInference.png)  
+![Örnek Pretrain](./outputs/SimCLRTestInference.png) ![Örnek Pretrain](./outputs/SimsiamTestInference.png)  
 
 Karmaşıklık matrisi (confusion matrix)
 
 
-![Örnek Pretrain](./SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./SimsiamConfusionMatrix.png) 
+![Örnek Pretrain](./outputs/SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./outputs/SimCLRConfusionM.png) 
 
 Tüm çıktılar outputs/ klasörü altında yer almaktadır.
 
 6. Sonuç ve Değerlendirme
-## Sonuçlar
-
-| Metrik               | SimSiam          | SimCLR           |
-|----------------------|----------------|----------------|
-| En İyi Val Acc       | %99.66          | %95.92          |
-| F1-Skoru             | ~%99.6        | %95.85          |
 
 
+Elde edilen deneysel sonuçlar, SimSiam modelinin SimCLR’e kıyasla daha yüksek accuracy (%99 vs %95), daha güçlü sınıf ayrımı, daha stabil öğrenme süreci, daha kısa sürmesi ve daha uygun batch size ile verimli çalışması sayesinde endüstriyel kusur tespiti uygulamaları için daha uygun bir tercih olduğunu göstermektedir.
 
-Elde edilen deneysel sonuçlar, Simsiam modelinin:
-
-Daha yüksek genelleme başarımı
-
-Daha güçlü sınıf ayrımı
-
-Daha stabil öğrenme süreci
-
-sağladığını göstermektedir.
-
-Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, endüstriyel kusur tespiti uygulamaları için Simsiam modelinin daha uygun olduğu sonucuna varılmıştır.
 
 7. Proje Sunumu
 
