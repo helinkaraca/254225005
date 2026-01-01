@@ -18,9 +18,10 @@ Bu nedenlerle, modelin etiketlere aşırı bağımlı olmadan genel ve ayırt ed
 
 2. Kullanılan Veri Seti ve Ön İşleme Adımları
 Veri Seti: Casting Product Image Dataset
+https://www.kaggle.com/datasets/ravirajsinh45/real-life-industrial-dataset-of-casting-product/code
 
 Endüstriyel döküm yüzey görüntülerinden oluşmaktadır.
-
+![Örnek Veriseti](./veriseti.png)
 İki sınıf:
 Defect (kusurlu)
 OK (kusursuz)
@@ -28,92 +29,63 @@ OK (kusursuz)
 Ön İşleme
 Görüntüler 224 × 224 boyutuna yeniden ölçeklendirilmiştir.
 Piksel değerleri normalize edilmiştir.
+
 Veri Artırma (Augmentation)
-
 Random horizontal/vertical flip
-
 Rotation
-
 Zoom
 
 SSL aşamasında, her görüntü için iki farklı artırılmış görünüm oluşturularak modelin temsil öğrenmesi sağlanmıştır.
 
 3. Model Mimarisi ve Yaklaşımın Gerekçesi
 Ortak Encoder
-
 CNN tabanlı bir encoder mimarisi kullanılmıştır.
-
 Encoder, SSL ön-eğitim sonrasında sınıflandırma başlığı eklenerek fine-tuning aşamasında kullanılmıştır.
 
 A. SimCLR
-
 SimCLR, kontrastif öğrenme temelli bir öz-denetimli öğrenme yöntemidir.
-
 Positive ve negative örnek çiftleri kullanır.
-
 NT-Xent loss fonksiyonu ile temsil öğrenimi gerçekleştirir.
 
 Avantajları:
-
 Güçlü sınıf ayrımı sağlayan temsil öğrenimi
-
 Daha kararlı ve stabil eğitim süreci
-
 Endüstriyel kusur bölgelerinde daha belirgin özellik çıkarımı
 
 B. SimSiam
-
 SimSiam, negative örnek gerektirmeyen bir öz-denetimli öğrenme yaklaşımıdır.
-
 Stop-gradient mekanizması kullanır
-
 Daha sade ve hafif bir mimariye sahiptir
 
 Avantajları:
-
 Daha kısa eğitim süresi
-
 Daha düşük bellek ihtiyacı
-
 Uygulama ve optimizasyon açısından daha basit yapı
 
 4. Çalıştırma Talimatları
 Ortam ve Bağımlılıklar
-
 Python 3.10+
-
 Gerekli kütüphaneler requirements.txt dosyasında listelenmiştir.
 
 Kurulum:
-
 pip install -r requirements.txt
 
 Eğitim Adımları
 
 SSL Ön-Eğitim:
 SimCLR ve SimSiam modelleri ile öz-denetimli ön-eğitim gerçekleştirilir.
+![Örnek Pretrain](./SimsiamPretrain.png)    ![Örnek Pretrain](./SimCLRPretrain.png)  
 
 Denetimli Fine-Tuning:
 Ön-eğitimli encoder üzerine sınıflandırma başlığı eklenerek eğitim yapılır.
 
-Notebook ve betikler:
+### Notebook 
 
-simclr_pretrain.ipynb
-
-simsiam_pretrain.ipynb
-
-classification_finetune.ipynb
+- SimCLR Modeli Eğitimi ve Deneyleri: [dlfinalsimclrmodel.ipynb](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
+- SimSiam Modeli Eğitimi ve Deneyleri: [dlfinalsimsiammodel.ipynb](https://github.com/kullaniciadi/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
 
 5. Model Çıktıları ve Değerlendirme
-Nicel Metrikler
 
-Accuracy
-
-Precision
-
-Recall
-
-F1-Score
 
 SimCLR ve SimSiam modelleri, doğrulama ve test setleri üzerinde karşılaştırmalı olarak değerlendirilmiştir.
 
@@ -122,14 +94,15 @@ Görsel Çıktılar
 Eğitim sürecine ait loss ve metrik eğrileri
 
 Test verisi üzerinde örnek tahmin (inference) görselleri
+![Örnek Pretrain](./SimCLRTestInference.png) ![Örnek Pretrain](./SimsiamTestInference.png)  
 
 Karmaşıklık matrisi (confusion matrix)
-
+![Örnek Pretrain](./SimsiamConfusionMatrix.png)   ![Örnek Pretrain](./SimsiamConfusionMatrix.png) 
 Tüm çıktılar outputs/ klasörü altında yer almaktadır.
 
 6. Sonuç ve Değerlendirme
 
-Elde edilen deneysel sonuçlar, SimCLR modelinin:
+Elde edilen deneysel sonuçlar, Simsiam modelinin:
 
 Daha yüksek genelleme başarımı
 
@@ -139,10 +112,14 @@ Daha stabil öğrenme süreci
 
 sağladığını göstermektedir.
 
-Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, endüstriyel kusur tespiti uygulamaları için SimCLR modelinin daha uygun olduğu sonucuna varılmıştır.
+Genelleme başarımı ve sınıf ayrım gücü dikkate alındığında, endüstriyel kusur tespiti uygulamaları için Simsiam modelinin daha uygun olduğu sonucuna varılmıştır.
 
 7. Proje Sunumu
 
-Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası:
+Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası: 
 
-📄 Nihai Sunum (PDF)
+### Proje Sunumu
+
+[Helin KARACA_DLFinalSSL.pdf](https://github.com/kullaniciadi/repoadi/blob/main/Helin%20KARACA_DLFinalSSL.pdf)  
+ 
+
