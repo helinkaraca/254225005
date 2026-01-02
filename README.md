@@ -175,13 +175,13 @@ gibi avantajlar sağladığını göstermektedir. Bu nedenle, endüstriyel kusur
 
 6. Notebook 
 
-- SimCLR Modeli Eğitimi ve Deneyleri: [SimCLR Model](https://github.com/helinkaraca/repoadi/blob/main/dlfinalsimclrmodel.ipynb)  
-- SimSiam Modeli Eğitimi ve Deneyleri: [Simsiam Model](https://github.com/helinkaraca/repoadi/blob/main/dlfinalsimsiammodel.ipynb)
+- SimCLR Modeli Eğitimi ve Deneyleri: [SimCLR Model](./dlfinalsimclrmodel.ipynb)
+- SimSiam Modeli Eğitimi ve Deneyleri: [SimSiam Model](./dlfinalsimsiammodel.ipynb)
   
 7. Proje Sunumu
 
 Çalışmanın metodolojisi, deneysel kurulumları ve sonuçlarının detaylı olarak açıklandığı sunum dosyası:
 
-[Helin KARACA_DLFinalSSL.pdf](https://github.com/helinkaraca/repoadi/blob/main/Helin%20KARACA_DLFinalSSL.pdf)  
+[Helin KARACA_DLFinalSSL.pdf](./Helin%20KARACA_DLFinalSSL.pdf)  
  
 
